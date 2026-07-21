@@ -6,7 +6,7 @@ import heroImg from '../assets/pickup_truck.webp';
 import { useGallery } from '../hooks/useGallery';
 import Spinner from '../components/Spinner';
 import { adminGalleryService, type GalleryImage } from '../services/adminGalleryService';
-import { getGalleryImageUrl } from '../utils/galleryImageUrl';
+import { toast } from 'react-toastify';
 
 const CATEGORIES = ['Fleet Vehicles', 'Completed Deliveries', 'Household Items', 'Coconut Transport', 'Cotton Box Transport', 'Machinery Transport'];
 
@@ -61,9 +61,11 @@ const Gallery: React.FC = () => {
         }
 
         refetch();
+        toast.success('Thanks for liking this image!');
       }
     } catch (error) {
       console.error('Error liking image', error);
+      toast.error('Failed to like image.');
     }
   };
 
@@ -156,9 +158,10 @@ const Gallery: React.FC = () => {
               <div className="grid gap-6 lg:grid-cols-[1.25fr_0.85fr]">
                 <div className="relative overflow-hidden bg-gray-100">
                   <img
-                    src={getGalleryImageUrl(selectedImage.imageUrl)}
+                    src={selectedImage.imageUrl}
                     alt={selectedImage.title}
                     loading="lazy"
+                    onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x300?text=Image+Not+Found' }}
                     className={`h-full w-full object-cover transition-transform duration-500 ${zoomed ? 'scale-110' : 'scale-100'}`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />

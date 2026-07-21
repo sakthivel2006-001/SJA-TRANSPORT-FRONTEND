@@ -30,7 +30,7 @@ export const useGallery = () => {
     setError(null);
     try {
       const res: any = await getGalleryItems();
-      setItems(res.data || []);
+      setItems(Array.isArray(res) ? res : []);
     } catch (err: any) {
       setError(err.message);
     } finally {

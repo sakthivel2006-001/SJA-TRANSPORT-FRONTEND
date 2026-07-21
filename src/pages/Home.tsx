@@ -20,7 +20,6 @@ import { useGallery } from '../hooks/useGallery';
 import { useFeedback } from '../hooks/useFeedback';
 import { useTransportServices, getTransportServiceCardData } from '../hooks/useTransportServices';
 import { useVehicles } from '../hooks/useVehicles';
-import { getGalleryImageUrl } from '../utils/galleryImageUrl';
 
 const Home: React.FC = () => {
   const { achievements, loading: loadingAchievements } = useAchievements();
@@ -201,7 +200,7 @@ const Home: React.FC = () => {
                   className="overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-sm hover:shadow-2xl"
                 >
                   <div className="relative overflow-hidden rounded-t-[28px]">
-                    <img src={getGalleryImageUrl(image.imageUrl)} alt={image.title} loading="lazy" className="h-64 w-full object-cover transition duration-700 hover:scale-105" />
+                    <img src={image.imageUrl} alt={image.title} loading="lazy" className="h-64 w-full object-cover transition duration-700 hover:scale-105" />
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-heading font-semibold text-primary">{image.title}</h3>

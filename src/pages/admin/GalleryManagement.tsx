@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Plus, Loader2 } from 'lucide-react';
 import { adminGalleryService, type GalleryImage } from '../../services/adminGalleryService';
-import { getGalleryImageUrl } from '../../utils/galleryImageUrl';
+import { toast } from 'react-toastify';
 
 const CATEGORY_OPTIONS = [
   'Fleet Vehicles',
@@ -45,8 +45,9 @@ const GalleryManagement: React.FC = () => {
       setLoading(true);
       const data = await adminGalleryService.getAllImages();
       setImages(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching gallery', error);
+      toast.error('Failed to load gallery images.');
     } finally {
       setLoading(false);
     }
@@ -105,7 +106,7 @@ const GalleryManagement: React.FC = () => {
       vehicleUsed: image.vehicleUsed ?? '',
       completedDate: image.completedDate ?? image.deliveryDate ?? '',
     });
-    setPreviewUrl(getGalleryImageUrl(image.imageUrl));
+    setPreviewUrl(image.imageUrl);
     setSelectedFile(null);
   };
 
@@ -127,11 +128,13 @@ const GalleryManagement: React.FC = () => {
         await adminGalleryService.updateImage(editingId, data);
       } else {
         await adminGalleryService.addImage(data);
+        toast.success('Image added successfully!');
       }
       resetForm();
       await fetchImages();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving gallery item', error);
+      toast.error(error?.response?.data?.message || 'Failed to save gallery item.');
     } finally {
       setSaving(false);
     }
@@ -143,9 +146,11 @@ const GalleryManagement: React.FC = () => {
     try {
       setSaving(true);
       await adminGalleryService.deleteImage(id);
+      toast.success('Image deleted successfully!');
       await fetchImages();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error deleting image', error);
+      toast.error(error?.response?.data?.message || 'Failed to delete image.');
     } finally {
       setSaving(false);
     }
@@ -167,9 +172,11 @@ const GalleryManagement: React.FC = () => {
       if (!image) return;
       const data = buildFormData(image, file);
       await adminGalleryService.updateImage(id, data);
+      toast.success('Image replaced successfully!');
       await fetchImages();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error replacing image', error);
+      toast.error(error?.response?.data?.message || 'Failed to replace image.');
     } finally {
       setSaving(false);
       setReplaceImageId(null);
@@ -184,9 +191,11 @@ const GalleryManagement: React.FC = () => {
       setSaving(true);
       const data = buildFormData({ ...image, isFeatured: !image.isFeatured });
       await adminGalleryService.updateImage(image._id, data);
+      toast.success(`Image ${!image.isFeatured ? 'featured' : 'unfeatured'} successfully!`);
       await fetchImages();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error toggling featured', error);
+      toast.error(error?.response?.data?.message || 'Failed to update featured status.');
     } finally {
       setSaving(false);
     }
@@ -206,9 +215,11 @@ const GalleryManagement: React.FC = () => {
     try {
       setSaving(true);
       await adminGalleryService.reorderImages(orderedIds);
+      toast.success('Images reordered successfully!');
       await fetchImages();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error reordering gallery items', error);
+      toast.error(error?.response?.data?.message || 'Failed to reorder images.');
     } finally {
       setSaving(false);
     }
@@ -325,7 +336,7 @@ const GalleryManagement: React.FC = () => {
             {orderedImages.map((img) => (
               <div key={img._id} className="overflow-hidden rounded-[32px] border border-gray-200 bg-white shadow-sm">
                 <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                  <img src={getGalleryImageUrl(img.imageUrl)} alt={img.title} className="h-full w-full object-cover transition duration-300 hover:scale-105" />
+                  <img src={img.imageUrl} alt={img.title} onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x300?text=Image+Not+Found' }} className="h-full w-full object-cover transition duration-300 hover:scale-105" />
                   {img.isFeatured && <div className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">Featured</div>}
                 </div>
                 <div className="p-6 space-y-4">

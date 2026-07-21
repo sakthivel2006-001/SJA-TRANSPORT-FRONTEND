@@ -69,6 +69,7 @@ Additional Notes: ${formData.additionalNotes}
     window.open(whatsappUrl, '_blank');
   };
   const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState('Submitting your booking...');
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -81,37 +82,71 @@ Additional Notes: ${formData.additionalNotes}
   };
 
   const handleSubmit = async () => {
+    if (loading) return;
     setLoading(true);
-    try {
-      await createBooking({
-        customerName: formData.customerName,
-        phone: formData.phone,
-        serviceType: getFinalValue('serviceType', 'serviceTypeOther'),
-        vehicleType: getFinalValue('vehicleType', 'vehicleTypeOther'),
-        destinationState: getFinalValue('destinationState', 'destinationStateOther'),
-        pickupLocation: formData.pickupLocation,
-        deliveryLocation: formData.deliveryLocation,
-        pickupDate: formData.pickupDate,
-        goodsDescription: formData.goodsDescription,
-        additionalNotes: formData.additionalNotes,
-      });
-      // show success (e.g. toast) first
-      onSuccess?.();
-      // open WhatsApp with the submitted data before clearing the form
-      openWhatsApp();
-      setSubmitted(true);
-      setFormData({
-        customerName: '', phone: '', serviceType: 'Household Items Transport', serviceTypeOther: '',
-        vehicleType: 'Tata Intra Pickup', vehicleTypeOther: '', pickupLocation: '',
-        destinationState: 'Tamil Nadu', destinationStateOther: '', deliveryLocation: '',
-        pickupDate: '', goodsDescription: '', additionalNotes: ''
-      });
-      setShowSummary(false);
-    } catch (err: any) {
-      onError?.(err.message || 'Booking failed. Please try again.');
-    } finally {
-      setLoading(false);
+    setLoadingText('Submitting your booking...');
+
+    let attempt = 0;
+    const maxAttempts = 2;
+
+    while (attempt < maxAttempts) {
+      try {
+        await createBooking({
+          customerName: formData.customerName,
+          phone: formData.phone,
+          serviceType: getFinalValue('serviceType', 'serviceTypeOther'),
+          vehicleType: getFinalValue('vehicleType', 'vehicleTypeOther'),
+          destinationState: getFinalValue('destinationState', 'destinationStateOther'),
+          pickupLocation: formData.pickupLocation,
+          deliveryLocation: formData.deliveryLocation,
+          pickupDate: formData.pickupDate,
+          goodsDescription: formData.goodsDescription,
+          additionalNotes: formData.additionalNotes,
+        });
+
+        // show success (e.g. toast) first
+        onSuccess?.();
+        // open WhatsApp with the submitted data before clearing the form
+        openWhatsApp();
+        setSubmitted(true);
+        setFormData({
+          customerName: '', phone: '', serviceType: 'Household Items Transport', serviceTypeOther: '',
+          vehicleType: 'Tata Intra Pickup', vehicleTypeOther: '', pickupLocation: '',
+          destinationState: 'Tamil Nadu', destinationStateOther: '', deliveryLocation: '',
+          pickupDate: '', goodsDescription: '', additionalNotes: ''
+        });
+        setShowSummary(false);
+        break; // Success, exit loop
+      } catch (err: any) {
+        attempt++;
+        const errMsg = err.message || '';
+
+        // Check if it's a network issue or timeout
+        if (errMsg.includes('Network error') || errMsg.includes('timeout') || err.code === 'ECONNABORTED') {
+          if (attempt < maxAttempts) {
+            setLoadingText('Server is starting. Please wait a few seconds...');
+            try {
+              const backendBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000/api';
+              const healthUrl = backendBaseUrl.replace(/\/api\/?$/i, '/api/health');
+              // Wait briefly before pinging to allow backend to wake up if sleeping
+              await new Promise(resolve => setTimeout(resolve, 2000));
+              await fetch(healthUrl);
+              // Re-attempt booking
+              setLoadingText('Submitting your booking...');
+              continue;
+            } catch (healthErr) {
+              onError?.('Network error — please check your connection or try again later.');
+              break;
+            }
+          }
+        }
+
+        // Output error (validation or exhausted retries)
+        onError?.(errMsg || 'Booking failed. Please try again.');
+        break;
+      }
     }
+    setLoading(false);
   };
 
   if (submitted) {
@@ -209,10 +244,10 @@ Additional Notes: ${formData.additionalNotes}
               type="button"
               disabled={loading}
               onClick={() => handleSubmit()}
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-xl shadow-lg hover:bg-accent hover:text-primary transition-all disabled:opacity-50"
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-xl shadow-lg hover:bg-accent hover:text-primary transition-all disabled:opacity-50 min-w-[200px]"
             >
               {loading ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} />}
-              {loading ? 'Submitting...' : 'Confirm Booking'}
+              {loading ? loadingText : 'Confirm Booking'}
             </button>
           </div>
         </div>

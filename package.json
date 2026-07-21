@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:server": "cd server && npm run dev",
-    "start:server": "cd server && npm start",
+    "dev:server": "npm --prefix ../SJA-TRANSPORT-BACKEND run dev",
+    "start:server": "npm --prefix ../SJA-TRANSPORT-BACKEND run start",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"

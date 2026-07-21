@@ -1,4 +1,5 @@
 import api from './api';
+import { getGalleryImageUrl } from '../utils/galleryImageUrl';
 
 export interface GalleryItemResponse {
   _id: string;
@@ -18,6 +19,16 @@ export interface GalleryItemResponse {
   likedBy?: string[];
 }
 
-export const getGalleryItems = () => api.get('/gallery');
+const normalizeGalleryItems = (payload: any): GalleryItemResponse[] => {
+  const items = payload?.data || payload || [];
+  return Array.isArray(items)
+    ? items.map((item) => ({ ...item, imageUrl: getGalleryImageUrl(item.imageUrl) }))
+    : [];
+};
+
+export const getGalleryItems = async () => {
+  const payload: any = await api.get('/gallery');
+  return normalizeGalleryItems(payload);
+};
 
 export const likeGalleryItem = (id: string, anonymousId: string) => api.patch(`/gallery/${id}/like`, { anonymousId });
