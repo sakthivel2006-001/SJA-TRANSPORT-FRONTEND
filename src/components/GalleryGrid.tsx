@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Maximize2, Sparkles } from 'lucide-react';
 import type { GalleryImage } from '../services/adminGalleryService';
+import { getGalleryImageUrl } from '../utils/galleryImageUrl';
 
 interface GalleryGridProps {
   images: GalleryImage[];
@@ -27,7 +28,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ images, onLike, likedIds = []
                 className="mb-6 break-inside-avoid overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-sm hover:shadow-2xl"
               >
                 <div className="relative overflow-hidden rounded-[28px]">
-                  <img src={image.imageUrl} alt={image.title} loading="lazy" className="w-full object-cover transition duration-700 hover:scale-110" style={{ minHeight: '260px' }} />
+                  <img src={getGalleryImageUrl(image.imageUrl)} alt={image.title} loading="lazy" className="w-full object-cover transition duration-700 hover:scale-110" style={{ minHeight: '260px' }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent" />
                   <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                     {image.category}

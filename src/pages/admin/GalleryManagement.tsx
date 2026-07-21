@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Plus, Loader2 } from 'lucide-react';
 import { adminGalleryService, type GalleryImage } from '../../services/adminGalleryService';
+import { getGalleryImageUrl } from '../../utils/galleryImageUrl';
 
 const CATEGORY_OPTIONS = [
   'Fleet Vehicles',
@@ -104,7 +105,7 @@ const GalleryManagement: React.FC = () => {
       vehicleUsed: image.vehicleUsed ?? '',
       completedDate: image.completedDate ?? image.deliveryDate ?? '',
     });
-    setPreviewUrl(image.imageUrl);
+    setPreviewUrl(getGalleryImageUrl(image.imageUrl));
     setSelectedFile(null);
   };
 
@@ -324,7 +325,7 @@ const GalleryManagement: React.FC = () => {
             {orderedImages.map((img) => (
               <div key={img._id} className="overflow-hidden rounded-[32px] border border-gray-200 bg-white shadow-sm">
                 <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                  <img src={img.imageUrl} alt={img.title} className="h-full w-full object-cover transition duration-300 hover:scale-105" />
+                  <img src={getGalleryImageUrl(img.imageUrl)} alt={img.title} className="h-full w-full object-cover transition duration-300 hover:scale-105" />
                   {img.isFeatured && <div className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">Featured</div>}
                 </div>
                 <div className="p-6 space-y-4">
