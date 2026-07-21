@@ -1,0 +1,67 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+
+// Layout
+import MainLayout from './layouts/MainLayout';
+
+// Pages
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import Gallery from './pages/Gallery';
+import BookShipment from './pages/BookShipment';
+import Contact from './pages/Contact';
+
+// Admin
+import AdminLogin from './pages/AdminLogin';
+import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
+
+import AdminLayout from './layouts/AdminLayout';
+import Dashboard from './pages/admin/Dashboard';
+import BookingManagement from './pages/admin/BookingManagement';
+import ContentManagement from './pages/admin/ContentManagement';
+import GalleryManagement from './pages/admin/GalleryManagement';
+import AchievementManagement from './pages/admin/AchievementManagement';
+import FeedbackManagement from './pages/admin/FeedbackManagement';
+import ContactManagement from './pages/admin/ContactManagement';
+import ProfileManagement from './pages/admin/ProfileManagement';
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <AnimatePresence mode="wait">
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route path="services" element={<Services />} />
+              <Route path="gallery" element={<Gallery />} />
+              <Route path="book" element={<BookShipment />} />
+              <Route path="contact" element={<Contact />} />
+            </Route>
+
+            <Route path="/admin/login" element={<AdminLogin />} />
+            
+            {/* Admin Protected Routes */}
+            <Route path="/admin" element={<ProtectedRoute />}>
+              <Route element={<AdminLayout />}>
+                <Route index element={<Navigate to="/admin/dashboard" replace />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="bookings" element={<BookingManagement />} />
+                <Route path="content" element={<ContentManagement />} />
+                <Route path="gallery" element={<GalleryManagement />} />
+                <Route path="achievements" element={<AchievementManagement />} />
+                <Route path="feedback" element={<FeedbackManagement />} />
+                <Route path="contacts" element={<ContactManagement />} />
+                <Route path="profile" element={<ProfileManagement />} />
+              </Route>
+            </Route>
+          </Routes>
+        </AnimatePresence>
+      </Router>
+    </AuthProvider>
+  );
+}
+
+export default App;
