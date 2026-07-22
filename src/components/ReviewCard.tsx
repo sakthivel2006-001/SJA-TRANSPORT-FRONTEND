@@ -29,7 +29,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ name, role = 'Customer', review
             <Star key={star} size={20} fill={star <= rating ? "currentColor" : "none"} stroke="currentColor" />
           ))}
         </div>
-        {date && <span className="text-xs text-gray-400">{new Date(date).toLocaleDateString()}</span>}
+        {date && <span className="text-xs text-gray-400">{new Date(date).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}</span>}
       </div>
       <p className="text-text/80 text-lg leading-relaxed mb-6 flex-grow italic">
         "{review}"

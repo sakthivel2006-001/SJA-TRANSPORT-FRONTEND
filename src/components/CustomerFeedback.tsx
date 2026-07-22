@@ -141,7 +141,7 @@ const CustomerFeedback: React.FC = () => {
                       <div className="border-t border-gray-100 pt-4">
                         <p className="font-bold text-primary text-lg">{feedbacks[currentIndex].customerName}</p>
                         <p className="text-sm text-gray-500">{feedbacks[currentIndex].service} • {feedbacks[currentIndex].vehicle}</p>
-                        <p className="text-xs text-gray-400 mt-1">{new Date(feedbacks[currentIndex].createdAt).toLocaleDateString()}</p>
+                        <p className="text-xs text-gray-400 mt-1">{new Date(feedbacks[currentIndex].createdAt).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
                       </div>
                     </div>
                   </motion.div>

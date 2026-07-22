@@ -30,6 +30,7 @@ import { AuthProvider } from './context/AuthContext';
 import { AdminModeProvider } from './context/AdminModeContext';
 import Preloader from './components/Preloader';
 import PageLoader from './components/PageLoader';
+import InstallPWA from './components/InstallPWA';
 
 function App() {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
@@ -51,6 +52,7 @@ function App() {
             transition={{ duration: 0.5 }}
           >
             <Router>
+              <InstallPWA />
               <AnimatePresence mode="wait">
                 <Routes>
                   <Route path="/" element={<MainLayout />}>

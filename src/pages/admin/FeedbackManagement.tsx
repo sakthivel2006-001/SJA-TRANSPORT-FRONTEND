@@ -181,7 +181,7 @@ const FeedbackManagement: React.FC = () => {
             </div>
             <div>
               <span className="text-sm text-gray-500">Date</span>
-              <p className="font-medium">{new Date(selectedFeedback.createdAt).toLocaleString()}</p>
+              <p className="font-medium">{new Date(selectedFeedback.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
             </div>
           </div>
         )}

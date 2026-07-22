@@ -251,7 +251,7 @@ const ProfileManagement: React.FC = () => {
                   <p className="text-sm text-gray-500 font-medium">Member Since</p>
                   <p className="text-gray-900">
                     {/* Assuming createdAt is populated if we fetch full profile, though we fallback if missing */}
-                    {(admin as any)?.createdAt ? new Date((admin as any).createdAt).toLocaleDateString() : 'N/A'}
+                    {(admin as any)?.createdAt ? new Date((admin as any).createdAt).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' }) : 'N/A'}
                   </p>
                 </div>
               </div>
@@ -262,7 +262,7 @@ const ProfileManagement: React.FC = () => {
                 <div>
                   <p className="text-sm text-gray-500 font-medium">Last Login</p>
                   <p className="text-gray-900">
-                    {(admin as any)?.lastLogin ? new Date((admin as any).lastLogin).toLocaleString() : 'Just now'}
+                    {(admin as any)?.lastLogin ? new Date((admin as any).lastLogin).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) : 'Just now'}
                   </p>
                 </div>
               </div>

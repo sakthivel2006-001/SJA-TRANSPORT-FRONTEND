@@ -163,8 +163,8 @@ const BookingManagement: React.FC = () => {
     { key: 'vehicleType', label: 'Vehicle' },
     { key: 'pickupLocation', label: 'Pickup' },
     { key: 'deliveryLocation', label: 'Delivery' },
-    { key: 'pickupDate', label: 'Pickup Date', render: (b: Booking) => (b.pickupDate ? new Date(b.pickupDate).toLocaleDateString() : '-') },
-    { key: 'createdAt', label: 'Booking Date', render: (b: Booking) => (b.createdAt ? new Date(b.createdAt).toLocaleDateString() : '-') },
+    { key: 'pickupDate', label: 'Pickup Date', render: (b: Booking) => (b.pickupDate ? new Date(b.pickupDate).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' }) : '-') },
+    { key: 'createdAt', label: 'Booking Date', render: (b: Booking) => (b.createdAt ? new Date(b.createdAt).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' }) : '-') },
     {
       key: 'status',
       label: 'Status',
@@ -363,7 +363,7 @@ const BookingManagement: React.FC = () => {
             </div>
             <div>
               <span className="text-sm text-gray-500">Pickup Date</span>
-              <p className="font-medium">{selectedBooking.pickupDate ? new Date(selectedBooking.pickupDate).toLocaleDateString() : '-'}</p>
+              <p className="font-medium">{selectedBooking.pickupDate ? new Date(selectedBooking.pickupDate).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' }) : '-'}</p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>

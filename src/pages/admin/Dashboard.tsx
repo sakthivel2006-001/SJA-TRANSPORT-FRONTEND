@@ -90,7 +90,7 @@ const Dashboard: React.FC = () => {
 
   // Build monthly data from live stats (current calendar month)
   const now = new Date();
-  const monthName = now.toLocaleString('default', { month: 'short' });
+  const monthName = now.toLocaleString('en-IN', { month: 'short', timeZone: 'Asia/Kolkata' });
   const monthlyData = [{ name: monthName, bookings: stats.monthlyBookings || 0 }];
 
   if (loading) {

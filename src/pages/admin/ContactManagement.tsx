@@ -110,7 +110,7 @@ const ContactManagement: React.FC = () => {
     { 
       key: 'date', 
       label: 'Date',
-      render: (m: ContactMessage) => <span className="text-sm">{new Date(m.createdAt).toLocaleDateString()}</span>
+      render: (m: ContactMessage) => <span className="text-sm">{new Date(m.createdAt).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}</span>
     },
     { 
       key: 'replyStatus', 
@@ -201,7 +201,7 @@ const ContactManagement: React.FC = () => {
                 <h3 className="font-semibold text-lg">{selectedMessage.subject}</h3>
                 <p className="text-gray-600">From: {selectedMessage.name} &lt;{selectedMessage.email}&gt;</p>
               </div>
-              <span className="text-sm text-gray-500">{new Date(selectedMessage.createdAt).toLocaleString()}</span>
+              <span className="text-sm text-gray-500">{new Date(selectedMessage.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</span>
             </div>
             
             <div className="bg-gray-50 p-6 rounded-xl border whitespace-pre-wrap text-gray-800">

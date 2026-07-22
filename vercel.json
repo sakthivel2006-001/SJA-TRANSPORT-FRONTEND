@@ -1,4 +1,19 @@
 {
+  "headers": [
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [
+        { "key": "Content-Type", "value": "application/manifest+json" }
+      ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Content-Type", "value": "application/javascript" },
+        { "key": "Service-Worker-Allowed", "value": "/" }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -9,7 +24,7 @@
       "destination": "https://sja-transport-backend.onrender.com/uploads/$1"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!manifest\\.webmanifest|sw\\.js|workbox-.*\\.js|favicon\\.ico|favicon-.*\\.png|apple-touch-icon\\.png|icon-.*\\.png|maskable-icon\\.png|icons\\.svg|favicon\\.svg|assets/.*).*)",
       "destination": "/index.html"
     }
   ]
