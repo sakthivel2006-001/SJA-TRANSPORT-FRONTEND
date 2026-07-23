@@ -50,7 +50,9 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-xl font-heading font-bold text-primary mb-2">Our Office</h4>
-                  <p className="text-text/70">Thanjavur, Pattukkottai, Tamil Nadu</p>
+                  <p className="text-text/70 font-semibold">A TO Z MANPOWER AGENCY</p>
+                  <p className="text-text/70">Thiruchitrambalam, Pattukkottai</p>
+                  <p className="text-text/70">Thanjavur, Tamil Nadu</p>
                 </div>
               </div>
 
@@ -71,7 +73,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="text-xl font-heading font-bold text-primary mb-2">Email</h4>
-                  <p className="text-text/70">sjatransportofficial@gmail.com</p>
+                  <p className="text-text/70">arulrajkks@gmail.com</p>
                 </div>
               </div>
             </div>

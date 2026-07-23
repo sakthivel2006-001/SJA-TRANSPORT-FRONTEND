@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-4">
               <li className="flex items-start space-x-3">
                 <MapPin className="text-accent shrink-0 mt-1" size={20} />
-                <span className="text-white/70">Thanjavur, Pattukkottai, Tamil Nadu</span>
+                <span className="text-white/70">A TO Z MANPOWER AGENCY, Thiruchitrambalam, Pattukkottai, Thanjavur, Tamil Nadu</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Phone className="text-accent shrink-0" size={20} />
@@ -62,7 +62,7 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center space-x-3">
                 <Mail className="text-accent shrink-0" size={20} />
-                <span className="text-white/70">sjatransportofficial@gmail.com</span>
+                <span className="text-white/70">arulrajkks@gmail.com</span>
               </li>
             </ul>
           </div>
