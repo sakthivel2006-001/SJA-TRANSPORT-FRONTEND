@@ -332,7 +332,9 @@ Additional Notes: ${formData.additionalNotes}
           >
             <option value="Tata Intra Pickup">Tata Intra Pickup</option>
             <option value="Ashok Leyland DOST">Ashok Leyland DOST</option>
-            <option value="Tata Ace">Tata Ace</option>
+            <option value="Bada Dost">Bada Dost</option>
+            <option value="Mahindra Veero">Mahindra Veero</option>
+            <option value="Bolero Pickup">Bolero Pickup</option>
             <option value="Other">Other</option>
           </select>
         </div>
